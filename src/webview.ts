@@ -18,7 +18,7 @@ export function  getWebviewContent(current: string, prev: string) {
                 table += currentArray[r][c];
             } else {
                 table += '<td style="background-color:red">';
-                table += prevArray[r][c] + ' -> ' + currentArray[r][c];
+                table += prevArray[r][c] + '<b> -> </b>' + currentArray[r][c];
             }
             table += "</td>";
         }
