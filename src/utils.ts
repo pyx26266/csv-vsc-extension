@@ -1,4 +1,3 @@
-import * as path from 'path';
 import * as vscode from 'vscode';
 import {exec} from 'child_process';
 
@@ -11,14 +10,16 @@ export function getCurrentFileName() {
         `);
         return false;
     }
-
-    const fileName = path.parse(oPath).base;
-    return fileName;
+    return oPath;
 }
 
 export async function getFileContent(file: string) {
     const rev = await checkFileModified(file);
-    const cmd = `git -C ${vscode.workspace.workspaceFolders?.map(folder => folder.uri.path)[0]} show HEAD~${rev}:${file}`;
+    let folder = vscode.workspace.workspaceFolders?.map(folder => folder.uri.path)[0];
+    if (!folder) {
+        folder = '';
+    }
+    const cmd = `git -C ${folder} show HEAD~${rev}:${file.replace(folder, ".")}`;
     let fileData = '';
     return new Promise<string>((resolve, reject) => {
         exec(cmd, (err, stdout) => {

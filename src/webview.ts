@@ -39,8 +39,12 @@ export function  getWebviewContent(current: string, prev: string) {
         table += "<tr>";
         for (r = 0; r < maxRows; ++r) {
             if (c >= prevArray[0].length) {
-                table += '<td style="background-color:green">';
-                table += currentArray[r][c];
+                if (r === currentArray.length) {
+                    table += '<td>';
+                } else {
+                    table += '<td style="background-color:green">';
+                    table += currentArray[r][c];
+                }
             } else {
                 table += '<td style="background-color:red">';
                 table += prevArray[r][c];
