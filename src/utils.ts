@@ -47,9 +47,9 @@ async function checkFileModified(name: string) {
                 return resolve(-1);
             }
             if (stdout.indexOf(name) !== -1) {
-                return resolve(1);
-            } else {
                 return resolve(0);
+            } else {
+                return resolve(1);
             }
         });
     });
