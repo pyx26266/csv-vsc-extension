@@ -1,6 +1,10 @@
 {
   "name": "diffcsv",
   "displayName": "diffCsv",
+  "author": {
+    "name": "Aman"
+  },
+  "publisher": "Pyx",
   "description": "",
   "version": "0.0.1",
   "engines": {
