@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 import * as utils from './utils';
 import * as views from './webview';
-import * as parser from './csvParser';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -20,7 +19,7 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 			const panel = vscode.window.createWebviewPanel(
 				'diffcsv',
-				'Example page',
+				'Diff CSV',
 				vscode.ViewColumn.One,
 				{
 					enableScripts: true

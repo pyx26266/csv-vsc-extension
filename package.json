@@ -10,21 +10,25 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:diffcsv.helloWorld",
     "onCommand:diffcsv.getDiff"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "diffcsv.helloWorld",
-        "title": "Hello World"
-      },
-      {
         "command": "diffcsv.getDiff",
-        "title": "Get csv git diff"
+        "category": "CSV",
+        "title": "csv git diff"
       }
-    ]
+    ],
+    "menus": {
+      "editor/title": [ {
+        "when": "resourceExtname == .csv",
+        "command": "diffcsv.getDiff",
+        "group": "navigation"
+      }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -46,8 +50,5 @@
     "glob": "^7.2.0",
     "mocha": "^9.1.3",
     "typescript": "^4.5.4"
-  },
-  "dependencies": {
-    "papaparse": "^5.3.1"
   }
 }

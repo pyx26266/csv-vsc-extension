@@ -1,30 +1,57 @@
+import * as utils from './utils';
+
 export function  getWebviewContent(current: string, prev: string) {
-    const currentArray = csvToArray(current);
-    const prevArray = csvToArray(prev);
-    const /*columns*/ rows = Math.max(currentArray[0].length, prevArray[0].length);
-    const /*rows*/ cols = Math.max(currentArray.length, prevArray.length);
-
-    let html = "<table>";
-    for (let i = 0; i < rows; i++) {
-        html += "<tr>";
-        for (let j = 0; j < cols-1; j++) {
-            if (i < currentArray[0].length && i < prevArray[0].length
-                && j < currentArray.length && j < prevArray.length) {
-                if (currentArray[j][i] === prevArray[j][i]) {
-                    html += "<td>";
-                    html += currentArray[j][i];
-                } else {
-                    html += '<td style="background-color:red">';
-                    html += prevArray[j][i] + ' -> ' + currentArray[j][i];
-                }
+    const currentArray = utils.csvToArray(current);
+    const prevArray = utils.csvToArray(prev);
+    const minCols = Math.min(currentArray[0].length, prevArray[0].length);
+    const minRows = Math.min(currentArray.length, prevArray.length);
+    const maxCols = Math.max(currentArray[0].length, prevArray[0].length);
+    const maxRows = Math.max(currentArray.length, prevArray.length);
+    let table = "<table>";
+    
+    let c = 0, r = 0;
+    for (c = 0; c < minCols; c++) {
+        table += "<tr>";
+        for (r = 0; r < minRows; r++) {
+            if (currentArray[r][c] === prevArray[r][c]) {
+                table += "<td>";
+                table += currentArray[r][c];
             } else {
-
+                table += '<td style="background-color:red">';
+                table += prevArray[r][c] + ' -> ' + currentArray[r][c];
             }
-            html += "</td>";
+            table += "</td>";
         }
-        html += "</tr>";
+        while (r < maxRows) {
+            if (r >= prevArray.length) {
+                table += '<td style="background-color:green">';
+                table += currentArray[r][c];
+            } else {
+                table += '<td style="background-color:red">';
+                table += prevArray[r][c];
+            }
+            table += "</td>";
+            r++;
+        }
+        table += "</tr>";
     }
-    html += "</table>";
+    while (c < maxCols) {
+        table += "<tr>";
+        for (r = 0; r < maxRows; ++r) {
+            if (c >= prevArray[0].length) {
+                table += '<td style="background-color:green">';
+                table += currentArray[r][c];
+            } else {
+                table += '<td style="background-color:red">';
+                table += prevArray[r][c];
+            }
+            table += '</td>';
+        }
+        table += "</tr>";
+        c++;
+    }
+ 
+    table += "</table>";
 
 	return `<!DOCTYPE html>
 			<html lang="en">
@@ -32,17 +59,14 @@ export function  getWebviewContent(current: string, prev: string) {
 				<meta charset="UTF-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 				<title>Diff CSV</title>
+                <style>
+                    th, td {
+                        padding: 10px;
+                    }
+                </style>
 			</head>
 			<body>
-				${html}
+				${table}
 			</body>
 			</html>`;
 }
-
-function csvToArray (csv: string) {
-    let rows = csv.split("\n");
-
-    return rows.map(function (row) {
-    	return row.split(",");
-    });
-};
