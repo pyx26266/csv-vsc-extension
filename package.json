@@ -6,7 +6,7 @@
   },
   "publisher": "Pyx",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.63.0"
   },
@@ -26,11 +26,12 @@
       }
     ],
     "menus": {
-      "editor/title": [ {
-        "when": "resourceExtname == .csv",
-        "command": "diffcsv.getDiff",
-        "group": "navigation"
-      }
+      "editor/title": [
+        {
+          "when": "resourceExtname == .csv",
+          "command": "diffcsv.getDiff",
+          "group": "navigation"
+        }
       ]
     }
   },
